@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "botanio": "0.0.6",
     "lodash": "^4.13.1",
     "node-telegram-bot-api": "^0.23.3",
     "superagent": "^1.7.2",
