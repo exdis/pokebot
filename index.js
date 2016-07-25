@@ -14,6 +14,15 @@ let url = require('./src/url');
 
 let bot = new TelegramBot(token, {polling: true});
 
+let opts = {
+    parse_mode: "Markdown",
+    reply_markup: JSON.stringify({
+        "keyboard": [
+            [{text: "Send location", request_location: true}]
+        ]
+    })
+}
+
 bot.on('location', function (res) {
     botan.track(res, 'Location');
 
@@ -26,15 +35,15 @@ bot.on('location', function (res) {
             if (marks.length) {
                 url.getShortUrl(map.getMap(location, marks))
                     .then((link) => {
-                        bot.sendMessage(chatId, link);
+                        bot.sendMessage(chatId, link, opts);
                     })
             } else {
-                bot.sendMessage(chatId, message);
+                bot.sendMessage(chatId, message, opts);
             }
         })
         .catch((err) => {
             console.error(err);
-            bot.sendMessage(chatId, 'Ooops! Something gone wrong! Try again later!');
+            bot.sendMessage(chatId, 'Ooops! Something gone wrong! Try again later!', opts);
         });
 });
 
@@ -47,6 +56,6 @@ bot.on('text', function (res) {
     let text = res.text;
 
     if (text === '/help' || text === '/start') {
-        bot.sendMessage(chatId, helpText);
+        bot.sendMessage(chatId, helpText, opts);
     }
 });
